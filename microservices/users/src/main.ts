@@ -13,7 +13,10 @@ async function bootstrap() {
       client: {
         clientId: 'users',
         brokers: process.env.KAFKA.split(','),
-      }
+      },
+      consumer: {
+        groupId: `users`,
+      },
     }
   });
 

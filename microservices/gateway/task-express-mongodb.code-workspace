@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../../../JS/task-express-mongodb"
+		},
+		{
+			"path": "../../../birthday-promo-scheduler"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {}
+}
