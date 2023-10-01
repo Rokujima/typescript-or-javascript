@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  nest-gateway:
+    build:
+      context: ./
+      dockerfile: ./gateway/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      KAFKA: kafka
+    volumes:
+      - .:/usr/src/gateway
+    depends_on:
+      - kafka
+    networks:
+      - internal_net
+
+  nest-users:
+    build:
+      context: .
+      dockerfile: ./users/Dockerfile
+    environment:
+      KAFKA: kafka
+    depends_on:
+      - kafka
+    volumes:
+      - .:/usr/src/users
+    networks:
+      - internal_net
+
+  nest-companies:
+    build:
+      context: .
+      dockerfile: ./companies/Dockerfile
+    environment:
+      KAFKA: kafka
+    volumes:
+      - .:/usr/src/gateway
+    depends_on:
+      - kafka
+    networks:
+      - internal_net
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.2
+    container_name: zookeeper
+    restart: always
+    ports:
+      - 12181:2181
+    env_file:
+      - ./volumes/kafka/.env
+    networks:
+      - internal_net
+
+  kafka:
+    image: confluentinc/cp-kafka:7.3.2
+    container_name: kafka
+    restart: always
+    ports:
+      - 12092:12092
+    env_file:
+      - ./volumes/kafka/.env
+    volumes:
+      - ./volumes/kafka/data:/var/lib/kafka/data
+    depends_on:
+      - zookeeper
+    networks:
+      - internal_net
+
+networks:
+  internal_net:
+    driver: bridge
+    name: internal-net
