@@ -8,7 +8,7 @@ services:
     ports:
       - '3000:3000'
     environment:
-      KAFKA: kafka:12092
+      KAFKA: kafka:12091
     volumes:
       - .:/usr/src/gateway
     depends_on:
@@ -21,7 +21,7 @@ services:
       context: .
       dockerfile: ./users/Dockerfile
     environment:
-      KAFKA: kafka:12092
+      KAFKA: kafka:12091
     depends_on:
       - kafka
     volumes:
@@ -34,7 +34,7 @@ services:
       context: .
       dockerfile: ./companies/Dockerfile
     environment:
-      KAFKA: kafka:12092
+      KAFKA: kafka:12091
     volumes:
       - .:/usr/src/gateway
     depends_on:
